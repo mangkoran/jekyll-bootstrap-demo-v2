@@ -9,5 +9,6 @@ group :jekyll_plugins do
     gem 'jekyll-autoprefixer'
 end
 
-gem 'therubyracer'
+# gem 'therubyracer'
+gem 'mini_racer'
 gem 'execjs', '2.7.0'
