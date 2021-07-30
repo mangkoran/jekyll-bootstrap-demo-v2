@@ -3,18 +3,24 @@ name: Build and deploy Jekyll site to GitHub Pages
 on:
     push:
         branches:
-            - main # or master before October 2020
+            - main
 
 jobs:
     github-pages:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
+              name: Checkout repository
               with:
                   submodules: recursive
             # - uses: actions/setup-node@v2
             #   with:
             #       node-version: '16'
+            - name: Checkout Bootstrap to v5.0.2
+              run: |
+                    cd _sass/bootstrap
+                    git checkout v5.0.2
             - uses: helaili/jekyll-action@v2
+              name: Build and deploy Jekyll site
               with:
                   token: ${{ secrets.PAGES_TOKEN }}
