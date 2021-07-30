@@ -19,7 +19,7 @@ jobs:
             - name: Checkout Bootstrap to v5.0.2
               run: |
                     cd _sass/bootstrap
-                    pwd
+                    git fetch --tags
                     git checkout tags/v5.0.2
             - uses: helaili/jekyll-action@v2
               name: Build and deploy Jekyll site
