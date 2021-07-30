@@ -1,4 +1,4 @@
-title: mangkoran
+title: Jekyll-Bootstrap-GitHub Pages site demo
 
 plugins:
   - jekyll-feed
@@ -12,3 +12,6 @@ sass:
 exclude:
   - Gemfile
   - Gemfile.lock
+
+exclude_patterns:
+  - "*.org"
