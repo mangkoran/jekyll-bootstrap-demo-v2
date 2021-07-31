@@ -1,26 +1,7 @@
 <!doctype html>
-<html class="no-js" lang="">
-    <head>
-        <meta charset="utf-8">
-        <title>{{ page.title }}</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        {% if jekyll.environment == "production" %}
-        <link rel="stylesheet" href="/jekyll-bootstrap-demo-v2/assets/css/styles.css" type="text/css" media="screen" />
-        {% else %}
-        <link rel="stylesheet" href="/assets/css/styles.css" type="text/css" media="screen" />
-        {% endif %}
-    </head>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+    {% include head.html %}
     <body>
-        <!--[if lt IE 8]>
-            <p class="browserupgrade">
-            You are using an <strong>outdated</strong> browser. Please
-            <a href="http://browsehappy.com/">upgrade your browser</a> to improve
-            your experience.
-            </p>
-        <![endif]-->
-
         {{ content }}
     </body>
 </html>

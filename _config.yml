@@ -1,4 +1,5 @@
 title: Jekyll-Bootstrap-GitHub Pages site demo
+url: https://mangkoran.github.io/jekyll-bootstrap-demo-v2
 
 plugins:
   - jekyll-feed
