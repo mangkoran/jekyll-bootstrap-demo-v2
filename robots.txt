@@ -1,0 +1,1 @@
+Sitemap: https://mangkoran.github.io/jekyll-bootstrap-demo-v2/sitemap.xml

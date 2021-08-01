@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <title>Documentation</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <link rel="stylesheet" href="https://mangkoran.github.io/jekyll-bootstrap-demo-v2/assets/css/styles.css" type="text/css" media="screen" />
+    
+</head>
+
+    <body>
+        <div class="d-flex bg-light text-dark p-5 min-vh-100">
+    <div class="container-fluid">
+        <h1 id="preface">Preface</h1>
+
+<p>When we were children, Hassan and I used to climb the poplar trees in
+the driveway of my father’s house and annoy our neigh-bors by reflecting
+sunlight into their homes with a shard of mirror. We would sit across
+from each other on a pair of high branches, our naked feet dangling, our
+trouser pockets filled with dried mul-berries and walnuts. We took turns
+with the mirror as we ate mul-berries, pelted each other with them,
+giggling, laughing. I can still see Hassan up on that tree, sunlight
+flickering through the leaves on his almost perfectly round face, a face
+like a Chinese doll chis-eled from hardwood: his flat, broad nose and
+slanting, narrow eyes like bamboo leaves, eyes that looked, depending on
+the light, gold, green, even sapphire. I can still see his tiny low-set
+ears and that pointed stub of a chin, a meaty appendage that looked like
+it was added as a mere afterthought. And the cleft lip, just left of
+midline, where the Chinese doll maker’s instrument may have slipped, or
+perhaps he had simply grown tired and careless.</p>
+
+<p><em>-The Kite Runner</em></p>
+
+<h1 id="prerequisites">Prerequisites</h1>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">git</code></li>
+  <li>Whatever in <a href="https://jekyllrb.com/docs/installation/">Jekyll’s
+prerequisites</a></li>
+</ul>
+
+<h1 id="steps">Steps</h1>
+
+<h2 id="jekyll-setup">Jekyll Setup</h2>
+
+<p>Make sure you already have local Jekyll website. I won’t explain how to
+setup a Jekyll website from scratch here, as it already covered in
+<a href="https://jekyllrb.com/docs/step-by-step/01-setup/">Jekyll’s own
+tutorial</a>.</p>
+
+<h2 id="bootstrap-setup">Bootstrap Setup</h2>
+
+<p>Assuming that your Jekyll site has <code class="language-plaintext highlighter-rouge">_sass</code> directory:</p>
+
+<ul>
+  <li>Clone Bootstrap repository into your site’s <code class="language-plaintext highlighter-rouge">_sass</code> directory (so it
+will be <code class="language-plaintext highlighter-rouge">_sass/Bootstrap</code>):</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/twbs/bootstrap.git _sass/Bootstrap
+</code></pre></div></div>
+
+<ul>
+  <li>Or if your site is a <code class="language-plaintext highlighter-rouge">git</code> repository, add Bootstrap repository as
+<code class="language-plaintext highlighter-rouge">git</code> submodule:</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git submodule add https://github.com/twbs/bootstrap.git _sass/Bootstrap
+</code></pre></div></div>
+
+<p>Create a SCSS file for your website. Here I named it <code class="language-plaintext highlighter-rouge">styles.scss</code> with
+the following code:</p>
+
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">---</span>
+<span class="nt">---</span>
+<span class="o">@</span><span class="nt">import</span> <span class="s2">"main"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">---</code> section is needed to tell Jekyll to process this file. It
+isn’t required in the other SCSS files as they will be processed by
+Sass.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">_sass</code> directory create <code class="language-plaintext highlighter-rouge">main.scss</code> containing the following code:</p>
+
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@import</span> <span class="s2">"custom_variables"</span> <span class="o">/*</span> <span class="n">if</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">override</span> <span class="n">certain</span> <span class="n">Bootstrap</span> <span class="n">variables</span><span class="o">,</span>
+                            <span class="o">*</span> <span class="n">create</span> <span class="n">custom_variables</span><span class="o">.</span><span class="n">scss</span> <span class="ow">and</span> <span class="n">add</span> <span class="n">this</span> <span class="n">line</span> <span class="o">*/</span>
+<span class="o">@</span><span class="n">import</span> <span class="s2">"bootstrap/scss/bootstrap"</span>
+</code></pre></div></div>
+
+<p>In <code class="language-plaintext highlighter-rouge">_config.yml</code> make sure to have the following configuration:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">sass</span><span class="pi">:</span>
+    <span class="na">sass_dir</span><span class="pi">:</span> <span class="s">_sass</span>
+    <span class="na">style</span><span class="pi">:</span> <span class="s">compressed</span>
+</code></pre></div></div>
+
+<p>This informs Jekyll that our Sass files are placed in <code class="language-plaintext highlighter-rouge">_sass</code> directory
+and it should “compress” the CSS it produces. However, as we building
+Bootstrap from Sass source, it needs to be
+<a href="https://github.com/postcss/autoprefixer">autoprefixed</a>. For this, we
+need to use some additional Ruby gems.</p>
+
+<p>Add the following gems to your <code class="language-plaintext highlighter-rouge">Gemfile</code>:</p>
+
+<pre><code class="language-gemfile">gem 'jekyll-autoprefixer'
+gem 'mini_racer'
+</code></pre>
+
+<p><code class="language-plaintext highlighter-rouge">jekyll-autoprefixer</code> is the gem that will auto-prefix Bootstrap source
+file. The autoprefixer uses JavaScript, because of that we need to use
+`mini<sub>racer</sub>` to bridge between V8 JavaScript engine and
+Ruby.</p>
+
+<p>Add <code class="language-plaintext highlighter-rouge">jekyll-autoprefixer</code> to the <code class="language-plaintext highlighter-rouge">gems</code> property inside <code class="language-plaintext highlighter-rouge">_config.yml</code>.
+Here is my gems configuration, you may use less or more gems than what I
+use:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">jekyll-feed</span>
+  <span class="pi">-</span> <span class="s">jekyll-seo-tag</span>
+  <span class="pi">-</span> <span class="s">jekyll-sitemap</span>
+  <span class="pi">-</span> <span class="s">jekyll-autoprefixer</span>
+</code></pre></div></div>
+
+    </div>
+</div>
+
+    </body>
+</html>
