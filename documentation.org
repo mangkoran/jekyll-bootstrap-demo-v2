@@ -16,10 +16,10 @@ When  we  were  children,  Hassan  and  I  used  to  climb  the  poplar  trees i
 - Whatever in [[https://jekyllrb.com/docs/installation/][Jekyll's prerequisites]]
 
 * Steps
-** Jekyll
+** Jekyll Setup
 Make sure you already have local Jekyll website. I won't explain how to setup a Jekyll website from scratch here, as it already covered in [[https://jekyllrb.com/docs/step-by-step/01-setup/][Jekyll's own tutorial]].
 
-** Bootstrap
+** Bootstrap Setup
 Assuming that your Jekyll site has ~_sass~ directory:
 - Clone Bootstrap repository into your site's ~_sass~ directory (so it will be ~_sass/Bootstrap~):
 #+begin_src sh
@@ -28,4 +28,46 @@ git clone https://github.com/twbs/bootstrap.git _sass/Bootstrap
 - Or if your site is a ~git~ repository, add Bootstrap repository as ~git~ submodule:
 #+begin_src sh
 git submodule add https://github.com/twbs/bootstrap.git _sass/Bootstrap
+#+end_src
+
+Create a SCSS file for your website. Here I named it ~styles.scss~ with the following code:
+#+begin_src scss
+---
+---
+@import "main";
+#+end_src
+
+The ~---~ section is needed to tell Jekyll to process this file. It isn't required in the other SCSS files as they will be processed by Sass.
+
+In ~_sass~ directory create ~main.scss~ containing the following code:
+#+begin_src scss
+@import "custom_variables" /* if you want to override certain Bootstrap variables,
+                            * create custom_variables.scss and add this line */
+@import "bootstrap/scss/bootstrap"
+#+end_src
+
+In ~_config.yml~ make sure to have the following configuration:
+#+begin_src yaml
+sass:
+    sass_dir: _sass
+    style: compressed
+#+end_src
+
+This informs Jekyll that our Sass files are placed in ~_sass~ directory and it should "compress" the CSS it produces. However, as we building Bootstrap from Sass source, it needs to be [[https://github.com/postcss/autoprefixer][autoprefixed]]. For this, we need to use some additional Ruby gems.
+
+Add the following gems to your ~Gemfile~:
+#+begin_src gemfile
+gem 'jekyll-autoprefixer'
+gem 'mini_racer'
+#+end_src
+
+~jekyll-autoprefixer~ is the gem that will auto-prefix Bootstrap source file. The autoprefixer uses JavaScript, because of that we need to use `mini_racer` to bridge between V8 JavaScript engine and Ruby.
+
+Add ~jekyll-autoprefixer~ to the ~gems~ property inside ~_config.yml~. Here is my gems configuration, you may use less or more gems than what I use:
+#+begin_src yaml
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-autoprefixer
 #+end_src
